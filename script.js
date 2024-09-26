@@ -15,7 +15,7 @@ const gameBoard= (function(){
     createBoard();
     const getBoard = () => board;
 
-    const resetBoard = () => createBoard;
+    const resetBoard = () => createBoard();
 
     const updateCell = (row, column, value) => {
         if (row < 0 || row >= board.length || column < 0 || column >= board[0].length) {
@@ -51,5 +51,17 @@ const Player =(function(){
 
 
 //Testing the player object
-const Player1 = Player("Kwesi","X");
+//const Player1 = Player("Kwesi","X");
 console.log(PlayerName.player);
+
+//Creating Game Object.
+const playGame = function(){
+    // call the Game Board 
+    const newBoard = gameBoard();
+    newBoard.createBoard();
+
+    //call the  player(create Player Objects)
+    const Player1 = Player("Player1","X");
+    const Player2 = Player("Player2","O");
+
+}
