@@ -55,13 +55,77 @@ const Player =(function(){
 console.log(PlayerName.player);
 
 //Creating Game Object.
-const playGame = function(){
-    // call the Game Board 
-    const newBoard = gameBoard();
-    newBoard.createBoard();
+const Game = (function() {
+    let currentPlayer;
+    let gameOver;
+    const players = [];
 
-    //call the  player(create Player Objects)
-    const Player1 = Player("Player1","X");
-    const Player2 = Player("Player2","O");
+    const initialize = () => {
+        gameBoard.resetBoard();
+        players[0] = Player("Player 1", "X");
+        players[1] = Player("Player 2", "O");
+        currentPlayer = players[0];
+        gameOver = false;
+    };
 
-}
+    const switchPlayer = () => {
+    
+        currentPlayer = currentPlayer === players[0] ? players[1] : players[0];
+    };
+
+    const checkWin = () => {
+        const board = gameBoard.getBoard();
+        const winConditions = [
+            [[0,0], [0,1], [0,2]],
+            [[1,0], [1,1], [1,2]],
+            [[2,0], [2,1], [2,2]],
+            [[0,0], [1,0], [2,0]],
+            [[0,1], [1,1], [2,1]],
+            [[0,2], [1,2], [2,2]],
+            [[0,0], [1,1], [2,2]],
+            [[0,2], [1,1], [2,0]]
+        ];
+
+        return winConditions.some(condition => {
+            return condition.every(([row, col]) => {
+                return board[row][col] === currentPlayer.marker;
+            });
+        });
+    };
+
+    const checkDraw = () => {
+        const board = gameBoard.getBoard();
+        return board.every(row => row.every(cell => cell !== " "));
+    };
+
+    const playRound = (row, col) => {
+        if (gameOver || gameBoard.getBoard()[row][col] !== " ") {
+            return false;
+        }
+
+        gameBoard.updateCell(row, col, currentPlayer.marker);
+
+        if (checkWin()) {
+            console.log(`${currentPlayer.playerName} wins!`);
+            gameOver = true;
+        } else if (checkDraw()) {
+            console.log("It's a draw!");
+            gameOver = true;
+        } else {
+            switchPlayer();
+        }
+
+        return true;
+    };
+
+    const getCurrentPlayer = () => currentPlayer;
+
+    const isGameOver = () => gameOver;
+
+    return {
+        initialize,
+        playRound,
+        getCurrentPlayer,
+        isGameOver
+    };
+})();
