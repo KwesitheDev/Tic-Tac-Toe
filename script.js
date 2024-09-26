@@ -28,6 +28,7 @@ const gameBoard= (function(){
     return{resetBoard,getBoard,updateCell}
 })();
 
+//Testing GameBoard Object
 console.log(gameBoard.getBoard()); 
 gameBoard.updateCell(0, 0, "X");
 gameBoard.updateCell(0, 1, "X");
@@ -41,4 +42,14 @@ gameBoard.updateCell(2, 2, "X");
 
 
 
-//const Player 
+//Player Object
+const Player =(function(){
+     return function (playerName,marker){
+        return {playerName,marker}
+     }
+})();
+
+
+//Testing the player object
+const Player1 = Player("Kwesi","X");
+console.log(PlayerName.player);
