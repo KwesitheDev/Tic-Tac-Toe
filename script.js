@@ -28,17 +28,6 @@ const gameBoard= (function(){
     return{resetBoard,getBoard,updateCell}
 })();
 
-//Testing GameBoard Object
-console.log(gameBoard.getBoard()); 
-gameBoard.updateCell(0, 0, "X");
-gameBoard.updateCell(0, 1, "X");
-gameBoard.updateCell(0, 2, "X");
-gameBoard.updateCell(1, 0, "X");
-gameBoard.updateCell(1, 1, "X");
-gameBoard.updateCell(1, 2, "X");
-gameBoard.updateCell(2, 0, "X");
-gameBoard.updateCell(2, 1, "X");
-gameBoard.updateCell(2, 2, "X");
 
 
 
@@ -50,9 +39,7 @@ const Player =(function(){
 })();
 
 
-//Testing the player object
-//const Player1 = Player("Kwesi","X");
-console.log(PlayerName.player);
+
 
 //Creating Game Object.
 const Game = (function() {
@@ -100,22 +87,21 @@ const Game = (function() {
 
     const playRound = (row, col) => {
         if (gameOver || gameBoard.getBoard()[row][col] !== " ") {
-            return false;
+            return "Invalid move";
         }
 
         gameBoard.updateCell(row, col, currentPlayer.marker);
 
         if (checkWin()) {
-            console.log(`${currentPlayer.playerName} wins!`);
             gameOver = true;
+            return `${currentPlayer.playerName} wins!`;
         } else if (checkDraw()) {
-            console.log("It's a draw!");
             gameOver = true;
+            return "It's a draw!";
         } else {
             switchPlayer();
+            return `${currentPlayer.playerName}'s turn`;
         }
-
-        return true;
     };
 
     const getCurrentPlayer = () => currentPlayer;
@@ -129,3 +115,10 @@ const Game = (function() {
         isGameOver
     };
 })();
+
+Game.initialize();
+console.log(Game.playRound(0, 0));  
+console.log(Game.playRound(0, 1));  
+console.log(Game.playRound(1, 1));  
+console.log(Game.playRound(1, 2));  
+console.log(Game.playRound(2, 2));
